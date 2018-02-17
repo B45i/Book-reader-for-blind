@@ -1,13 +1,10 @@
 certifi==2018.1.18
 chardet==3.0.4
-gTTS==1.2.2
-gTTS-token==1.1.1
 idna==2.6
 numpy==1.14.0
 opencv-python==3.4.0.12
 Pillow==5.0.0
 pytesseract==0.2.0
-python-vlc==3.0.101
 pyttsx==1.1
 requests==2.18.4
 six==1.11.0

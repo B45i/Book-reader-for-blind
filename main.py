@@ -1,9 +1,7 @@
 import cv2
 import numpy as np
 import pytesseract
-from gtts import gTTS
-import vlc
-import os
+import pyttsx
 
 
 def get_image():
@@ -29,17 +27,16 @@ def get_string():
 
 
 def read_text(text):
-    # tts = gTTS(text=text, lang='en')
-    # tts.save('op_audio.mp3')
-    p = vlc.MediaPlayer('op_audio.mp3')
-    p.play()
+    engine = pyttsx.init()
+    engine.setProperty('rate', 50)
+    engine.say(text)
+    engine.runAndWait()
 
 
 def main():
     text = get_string()
     print text
     read_text(text)
-    read_text('hello world')
 
 
 if __name__ == '__main__':
