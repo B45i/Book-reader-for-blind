@@ -2,9 +2,8 @@
 import cv2
 import requests
 import pyttsx
+from config import subscription_key
 
-
-subscription_key = 'API KEY'
 
 def speek(text):
     
@@ -25,6 +24,7 @@ def get_text():
         'https://westcentralus.api.cognitive.microsoft.com/vision/v1.0/'
     vision_analyze_url = vision_base_url + 'ocr'
 
+    # print 'Capturing image......'
     # camera = cv2.VideoCapture(camera_port)
     # _, img = camera.read()
     # cv2.imwrite(image_path, img)
@@ -34,11 +34,15 @@ def get_text():
     headers = {'Ocp-Apim-Subscription-Key': subscription_key,
                'Content-Type': 'application/octet-stream'}
     params = {'language': 'unk', 'detectOrientation ': 'true'}
+    
+    print 'Sending request......'
+    
     response = requests.post(vision_analyze_url, headers=headers,
                              params=params, data=image_data)
 
     response.raise_for_status()
 
+    print 'Responce received......'
     analysis = response.json()
     line_infos = [region['lines'] for region in analysis['regions']]
     words = []
@@ -47,6 +51,7 @@ def get_text():
             for word_info in word_metadata['words']:
                 words.append(word_info['text'])
 
+    print 'Speking......'
     speek(' '.join(words))
 
 
