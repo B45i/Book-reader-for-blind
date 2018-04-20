@@ -1,9 +1,10 @@
+
 # -*- coding: utf-8 -*-
 import cv2
 import requests
 import pyttsx
 from config import subscription_key
-
+import RPi.GPIO as GPIO
 
 def speek(text):
     
@@ -33,7 +34,7 @@ def get_text():
 
     headers = {'Ocp-Apim-Subscription-Key': subscription_key,
                'Content-Type': 'application/octet-stream'}
-    params = {'language': 'unk', 'detectOrientation ': 'true'}
+    params = {'language': 'en', 'detectOrientation ': 'true'}
     
     print 'Sending request......'
     
@@ -55,4 +56,18 @@ def get_text():
     speek(' '.join(words))
 
 
-get_text()
+
+GPIO.setmode(GPIO.BCM)
+
+GPIO.setup(23, GPIO.IN, pull_up_down=GPIO.PUD_UP)#Button to GPIO23
+GPIO.setup(24, GPIO.OUT)  #LED to GPIO24
+
+try:
+    while True:
+         button_state = GPIO.input(23)
+         if button_state == False:
+             GPIO.output(24, True)
+             get_text()
+             GPIO.output(24, False)
+except:
+    GPIO.cleanup()
